@@ -19,16 +19,27 @@ along with C++lex.  If not, see <http://www.gnu.org/licenses/>.
 #define CPPLEX_MATRIX_H
 
 #include <cstdio>
+#ifdef CPPLEX_USE_EIGEN
 #include <Eigen/Dense>
+#else
+#include <pilal/matrix.h>
+#endif
 
 namespace cpplex {
 
+#ifdef CPPLEX_USE_EIGEN
     template <typename Scalar>
     using Matrix = Eigen::Matrix<Scalar, Eigen::Dynamic, Eigen::Dynamic, Eigen::RowMajor>;
     template <typename Scalar>
     using RowVector = Eigen::Matrix<Scalar, 1, Eigen::Dynamic>;
     template <typename Scalar>
     using ColumnVector = Eigen::Matrix<Scalar, Eigen::Dynamic, 1>;
+#else
+    using pilal::Matrix;
+    using pilal::AnonymousMatrix;
+    template <typename Scalar> using RowVector = Matrix<Scalar>;
+    template <typename Scalar> using ColumnVector = Matrix<Scalar>;
+#endif
 
     /** Auxiliary function, number comparison with tolerance. */
     template <typename Scalar>
@@ -55,6 +66,7 @@ namespace cpplex {
     }
 
     /** Prints the matrix with a name for debug. */
+#ifdef CPPLEX_USE_EIGEN
     template <typename Scalar,
               int RowsAtCompileTime,
               int ColsAtCompileTime,
@@ -75,6 +87,12 @@ namespace cpplex {
         }
         printf("--\n");     
     }
+#else
+    template <typename Scalar>
+    void log_matrix(Matrix<Scalar> const& matrix) {
+        matrix.log();
+    }
+#endif
 
     /** Updates inverse of the matrix after a column has changed. */
     template <typename Scalar>

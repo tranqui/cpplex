@@ -16,6 +16,7 @@ along with C++lex.  If not, see <http://www.gnu.org/licenses/>.
 */
 
 #include <iostream>
+#define CPPLEX_USE_EIGEN
 #include "conicalhull.h"
 
 using namespace cpplex;
