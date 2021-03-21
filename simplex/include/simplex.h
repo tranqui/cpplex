@@ -47,6 +47,7 @@ namespace cpplex {
 
     // Enum to individuate parsing context
     enum ParsingContext {
+         PB_UNINITIALIZED,
          PB_METADATA,
          PB_VARS,
          PB_CONSTRAINTS,
@@ -102,7 +103,7 @@ namespace cpplex {
 
             std::ifstream file(problem_name);
 
-            ParsingContext current_parsing_block;
+            ParsingContext current_parsing_block = PB_UNINITIALIZED;
             int current_var = 0, solution_dimension = 0;
 
             if (file.is_open()) {
@@ -217,6 +218,10 @@ namespace cpplex {
                                 }
                             }
 
+                            break;
+
+                            case PB_UNINITIALIZED:
+                            default:
                             break;
                             }
                         }

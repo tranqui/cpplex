@@ -56,6 +56,8 @@ namespace cpplex {
             this->coefficients = coefficients;
             this->type = type;
             this->value = value;
+            this->lower = 0;
+            this->upper = std::numeric_limits<Scalar>::infinity();
         }
 
         Constraint( RowVector<Scalar> const & coefficients, ConstraintType type, Scalar lower, Scalar upper ) {
